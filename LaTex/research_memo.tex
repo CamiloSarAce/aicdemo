@@ -1,0 +1,194 @@
+\documentclass[11pt]{article}
+\usepackage[margin=0.75in]{geometry}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{url}
+
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.65em}
+\renewcommand{\arraystretch}{1.15}
+\newcommand{\RevenueTag}{\texttt{RevenueFromContractWith\allowbreak CustomerExcluding\allowbreak AssessedTax}}
+
+\begin{document}
+
+\begin{center}
+    {\Large\bfseries Research Memorandum\par}
+    \vspace{0.35em}
+    {\large Scale, Growth, and Margins at Apple, Microsoft, NVIDIA, Alphabet, and Amazon\par}
+    \vspace{0.5em}
+    November 9, 2026
+\end{center}
+\hrule
+\vspace{0.8em}
+
+\section*{Executive conclusion}
+
+Among these five companies, \textbf{Amazon has the greatest accounting scale}, \textbf{NVIDIA has the fastest revenue growth and highest margins}, and \textbf{Microsoft has the second-highest margins}. Amazon reported the most revenue and assets, but the lowest revenue growth and margins in this group. NVIDIA was the smallest by revenue and assets, yet its year-over-year revenue growth of 65.5\%, operating margin of 60.4\%, and net margin of 55.6\% were the highest.
+
+These findings compare each company's latest reported fiscal year. They do not represent identical calendar periods, establish causation, or constitute an investment recommendation.
+
+\section*{Research question and scope}
+
+This memo compares Apple (AAPL), Microsoft (MSFT), NVIDIA (NVDA), Alphabet (GOOGL), and Amazon (AMZN) on three dimensions:
+
+\begin{itemize}
+    \item \textbf{Size:} annual revenue and fiscal-year-end total assets. These are measures of accounting scale, not equity market capitalization.
+    \item \textbf{Growth:} year-over-year revenue growth, calculated as current-year revenue divided by prior-year revenue, minus one.
+    \item \textbf{Margin:} operating income divided by revenue and net income divided by revenue.
+\end{itemize}
+
+All ratios were calculated from unrounded values. Dollar figures are reported in billions of U.S. dollars to one decimal place. A missing source fact would be shown as \emph{n/a}, never replaced with zero; no required source fact was missing in this comparison.
+
+\section*{Data and method}
+
+The sole data source is the SEC EDGAR Company Facts API:
+\begin{center}
+    \url{https://data.sec.gov/api/xbrl/companyfacts/}
+\end{center}
+
+The extraction program in \texttt{src/sec\_company\_comparison.py} sent the required identifying User-Agent and saved the five unmodified API responses in \texttt{data/}. It selected annual USD facts reported in 10-K or 10-K/A filings, using the latest annual revenue period as each company's fiscal-year anchor. Total assets match that period end; operating income and net income match both the start and end of the annual revenue period.
+
+Current and prior-year revenue use the same XBRL tag and the same filing for every company. Growth and margins are therefore derived from documented source facts rather than from precomputed ratios. The cached JSON files are reused on subsequent runs and are not overwritten by the program.
+
+\section*{Fiscal-period alignment}
+
+\begin{center}
+\small
+\begin{tabular}{@{}llllrl@{}}
+\toprule
+Ticker & Fiscal year & Period start & Fiscal-year end & Days & 10-K filed \\
+\midrule
+AAPL & FY2026 & 2025-09-28 & 2026-09-26 & 364 & 2026-11-03 \\
+MSFT & FY2026 & 2025-07-01 & 2026-06-30 & 365 & 2026-07-29 \\
+NVDA & FY2026 & 2025-01-27 & 2026-01-25 & 364 & 2026-02-25 \\
+GOOGL & FY2025 & 2025-01-01 & 2025-12-31 & 365 & 2026-02-05 \\
+AMZN & FY2025 & 2025-01-01 & 2025-12-31 & 365 & 2026-02-06 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\textbf{Fiscal-year mismatch.} The fiscal-year labels and period ends are not uniform. Apple and NVIDIA have 364-day fiscal years; the other three have 365-day years. Alphabet and Amazon end on December 31, 2025, while NVIDIA ends on January 25, 2026, Microsoft on June 30, 2026, and Apple on September 26, 2026. Cross-company differences may partly reflect these noncoincident reporting windows.
+
+\section*{Comparison of findings}
+
+\begin{center}
+\begin{tabular}{@{}lrrrrr@{}}
+\toprule
+Ticker & Revenue (\$B) & Assets (\$B) & Revenue growth & Operating margin & Net margin \\
+\midrule
+AAPL & 478.8 & 404.5 & 15.1\% & 33.0\% & 27.6\% \\
+MSFT & 331.8 & 758.4 & 17.8\% & 46.8\% & 40.3\% \\
+NVDA & 215.9 & 206.8 & 65.5\% & 60.4\% & 55.6\% \\
+GOOGL & 402.8 & 595.3 & 15.1\% & 32.0\% & 32.8\% \\
+AMZN & 716.9 & 818.0 & 12.4\% & 11.2\% & 10.8\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+\subsection*{1. Scale: Amazon leads both accounting measures}
+
+Amazon's \$716.9 billion of revenue and \$818.0 billion of assets are the largest in the group. Apple ranks second by revenue at \$478.8 billion, while Microsoft ranks second by assets at \$758.4 billion. NVIDIA is the smallest of the five on both measures, with \$215.9 billion of revenue and \$206.8 billion of assets. Thus, the ranking depends on the measure selected: Apple is second in revenue but fourth in assets.
+
+\subsection*{2. Growth: NVIDIA is the clear outlier}
+
+NVIDIA's 65.5\% revenue growth substantially exceeds Microsoft's 17.8\%, the next-highest rate. Apple and Alphabet both report 15.1\% growth after rounding, followed by Amazon at 12.4\%. NVIDIA's prior-year revenue was \$130.5 billion, compared with \$215.9 billion in the latest year; the growth rate therefore comes from a smaller revenue base than those of the other companies.
+
+\subsection*{3. Margins: NVIDIA and Microsoft separate from the group}
+
+NVIDIA leads with a 60.4\% operating margin and a 55.6\% net margin. Microsoft follows at 46.8\% and 40.3\%, respectively. Apple and Alphabet have similar operating margins of 33.0\% and 32.0\%, while Amazon's operating margin is 11.2\%.
+
+Alphabet is the only company in the group whose net margin exceeds its operating margin: 32.8\% versus 32.0\%. This memo does not decompose nonoperating income or tax effects and therefore does not attribute that difference to a particular cause.
+
+\section*{Interpretation and limitations}
+
+The results show a sharp contrast between scale and profitability in this particular group and period. Amazon combines the greatest scale with the lowest growth and margins; NVIDIA combines the smallest accounting base with the strongest growth and margins. Microsoft ranks fourth on revenue but second in assets and profitability.
+
+Several limitations constrain the interpretation:
+
+\begin{itemize}
+    \item \textbf{Nonaligned periods:} The observations do not cover the same macroeconomic or market conditions because fiscal-year ends differ.
+    \item \textbf{One-year window:} A single year of growth does not establish a durable trend, cyclical position, or future performance.
+    \item \textbf{Accounting scope:} Revenue and assets do not measure market value, cash generation, returns on invested capital, or risk.
+    \item \textbf{Business and accounting differences:} Business mix and accounting policies can affect comparability even when the same standard XBRL tags are used.
+    \item \textbf{No causal claim:} The memo documents reported differences; it does not test why those differences arose.
+\end{itemize}
+
+\section*{Conclusion}
+
+On the latest available fiscal-year facts, Amazon is the scale leader, NVIDIA is the growth and margin leader, and Microsoft is the next-strongest on margins. Apple and Alphabet fall between those positions, with similar rounded revenue growth and operating margins. Any broader conclusion requires aligned periods, multiple years, and additional measures of valuation, cash flow, and risk.
+
+\clearpage
+\section*{Appendix A: XBRL source-fact provenance}
+
+All tags are in the \texttt{us-gaap} namespace. Revenue, operating income, and net income are annual-duration facts; assets are instant facts at the indicated period end. Growth and margins are calculated from the facts below.
+
+\footnotesize
+\begin{longtable}{@{}l>{\raggedright\arraybackslash}p{2.55cm}>{\raggedright\arraybackslash}p{5.65cm}lrl@{}}
+\toprule
+Ticker & Source fact & XBRL tag & Period end & Value (\$B) & Filed \\
+\midrule
+\endfirsthead
+\toprule
+Ticker & Source fact & XBRL tag & Period end & Value (\$B) & Filed \\
+\midrule
+\endhead
+\midrule
+\multicolumn{6}{r}{Continued on next page} \\
+\endfoot
+\bottomrule
+\endlastfoot
+AAPL & Revenue & \RevenueTag & 2026-09-26 & 478.8 & 2026-11-03 \\
+AAPL & Prior-year revenue & \RevenueTag & 2025-09-27 & 416.2 & 2026-11-03 \\
+AAPL & Total assets & \texttt{Assets} & 2026-09-26 & 404.5 & 2026-11-03 \\
+AAPL & Operating income & \texttt{OperatingIncomeLoss} & 2026-09-26 & 158.1 & 2026-11-03 \\
+AAPL & Net income & \texttt{NetIncomeLoss} & 2026-09-26 & 132.2 & 2026-11-03 \\
+\addlinespace[3pt]
+MSFT & Revenue & \RevenueTag & 2026-06-30 & 331.8 & 2026-07-29 \\
+MSFT & Prior-year revenue & \RevenueTag & 2025-06-30 & 281.7 & 2026-07-29 \\
+MSFT & Total assets & \texttt{Assets} & 2026-06-30 & 758.4 & 2026-07-29 \\
+MSFT & Operating income & \texttt{OperatingIncomeLoss} & 2026-06-30 & 155.2 & 2026-07-29 \\
+MSFT & Net income & \texttt{NetIncomeLoss} & 2026-06-30 & 133.7 & 2026-07-29 \\
+\addlinespace[3pt]
+NVDA & Revenue & \texttt{Revenues} & 2026-01-25 & 215.9 & 2026-02-25 \\
+NVDA & Prior-year revenue & \texttt{Revenues} & 2025-01-26 & 130.5 & 2026-02-25 \\
+NVDA & Total assets & \texttt{Assets} & 2026-01-25 & 206.8 & 2026-02-25 \\
+NVDA & Operating income & \texttt{OperatingIncomeLoss} & 2026-01-25 & 130.4 & 2026-02-25 \\
+NVDA & Net income & \texttt{NetIncomeLoss} & 2026-01-25 & 120.1 & 2026-02-25 \\
+\addlinespace[3pt]
+GOOGL & Revenue & \texttt{Revenues} & 2025-12-31 & 402.8 & 2026-02-05 \\
+GOOGL & Prior-year revenue & \texttt{Revenues} & 2024-12-31 & 350.0 & 2026-02-05 \\
+GOOGL & Total assets & \texttt{Assets} & 2025-12-31 & 595.3 & 2026-02-05 \\
+GOOGL & Operating income & \texttt{OperatingIncomeLoss} & 2025-12-31 & 129.0 & 2026-02-05 \\
+GOOGL & Net income & \texttt{NetIncomeLoss} & 2025-12-31 & 132.2 & 2026-02-05 \\
+\addlinespace[3pt]
+AMZN & Revenue & \RevenueTag & 2025-12-31 & 716.9 & 2026-02-06 \\
+AMZN & Prior-year revenue & \RevenueTag & 2024-12-31 & 638.0 & 2026-02-06 \\
+AMZN & Total assets & \texttt{Assets} & 2025-12-31 & 818.0 & 2026-02-06 \\
+AMZN & Operating income & \texttt{OperatingIncomeLoss} & 2025-12-31 & 80.0 & 2026-02-06 \\
+AMZN & Net income & \texttt{NetIncomeLoss} & 2025-12-31 & 77.7 & 2026-02-06 \\
+\end{longtable}
+\normalsize
+
+\section*{Appendix B: Source filings and reproduction}
+
+All facts for each company in this memo came from the following accession:
+
+\begin{center}
+\small
+\begin{tabular}{@{}lllll@{}}
+\toprule
+Ticker & CIK & Form & Accession & Filed \\
+\midrule
+AAPL & 0000320193 & 10-K & 0000320193-26-000026 & 2026-11-03 \\
+MSFT & 0000789019 & 10-K & 0001193125-26-323660 & 2026-07-29 \\
+NVDA & 0001045810 & 10-K & 0001045810-26-000021 & 2026-02-25 \\
+GOOGL & 0001652044 & 10-K & 0001652044-26-000018 & 2026-02-05 \\
+AMZN & 0001018724 & 10-K & 0001018724-26-000004 & 2026-02-06 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+To regenerate the comparison, run \texttt{python src/sec\_company\_comparison.py}. The raw responses are stored as \texttt{data/AAPL.json}, \texttt{data/MSFT.json}, \texttt{data/NVDA.json}, \texttt{data/GOOGL.json}, and \texttt{data/AMZN.json}.
+
+\end{document}
